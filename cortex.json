@@ -1,0 +1,26 @@
+{
+  "name": "sticky",
+  "version": "0.1.0",
+  "description": "sticky elements",
+  "main": "index.js",
+  "repository": "git://github.com/supersheep/sticky.git",
+  "keywords": [
+    "sticky",
+    "fixed"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "supersheep",
+    "email": "supersheepxjy@gmail.com"
+  },
+  "bugs": {
+    "url": "http://github.com/supersheep/sticky/issues"
+  },
+  "homepage": "http://github.com/supersheep/sticky",
+  "devDependencies": {
+    "assert": "*"
+  },
+  "dependencies": {
+    "jquery": "~1.9.2"
+  }
+}
