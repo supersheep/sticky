@@ -20,6 +20,7 @@ function sticky(elem, offset) {
   var elem_css_left = elem.css("left");
   var elem_css_float = elem.css("float");
   var elem_margin_top = elem.css("margin-top");
+  var elem_margin_left = elem.css("margin-left");
   var elem_top = elem.offset().top;
   var elem_left = elem.offset().left;
   var elem_height = elem.height();
@@ -29,7 +30,7 @@ function sticky(elem, offset) {
 
   if (elem_css_position === "static") {
     placeholder = $("<div />").css({
-      "width": elem.css("width"),
+      "width": elemWidth(elem),
       "height": elem.css("height"),
       "margin": elem.css("margin"),
       "padding": elem.css("padding"),
@@ -44,18 +45,20 @@ function sticky(elem, offset) {
   function fix(elem, top) {
 
     elem.css({
-      "width": elem.css("width"),
+      "width": elemWidth(elem),
       "top": top,
       "left": elem_left,
       "marginTop": 0,
+      "marginLeft": 0,
       "position": "fixed"
     });
-    placeholder && placeholder.appendTo(elem, "after");
+    placeholder && elem.after(placeholder);
   }
 
   function unfix(elem) {
     elem.css({
       "marginTop": elem_margin_top,
+      "marginLeft": elem_margin_left,
       "left": elem_css_left,
       "top": elem_css_top,
       "position": elem_css_position
@@ -63,11 +66,15 @@ function sticky(elem, offset) {
     placeholder && placeholder.remove();
   }
 
+  function elemWidth(elem){
+    return elem[0].getBoundingClientRect().width;
+  }
+
   function fix_buttom(elem) {
     elem.css({
       "position": "absolute",
-      "top": win_height - bottom - elem_height - parent_offset.top + parseInt(offsetParent.css('margin-top')),
-      "left": elem_left - parent_offset.left + parseInt(offsetParent.css('margin-left'))
+      "top": win_height - bottom - elem_height - parent_offset.top + parseFloat(offsetParent.css('margin-top')),
+      "left": elem_left - parent_offset.left + parseFloat(offsetParent.css('margin-left'))
     });
   }
 
