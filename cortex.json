@@ -21,6 +21,7 @@
     "assert": "*"
   },
   "dependencies": {
-    "jquery": "~1.9.2"
+    "jquery": "^1.9.2",
+    "events": "^1.0.5"
   }
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="neurons/neuron/6.1.1/neuron.js"></script>
+  <script src="neurons/config.js"></script>
+  <script>
+    neuron.config({
+      path: "./neurons"
+    });
+  </script>
+</head>
+<body>
+      
+  <div id="a" style="position:absolute;top:90px;height:250px;background-color:#000;color:#fff">sticky me</div>
+  <div style="height:1600px"></div>
+
+  
+  <script>
+  _use("sticky",function(sticky){
+    sticky(document.getElementById("a"), {
+      top: 50,
+      bottom: 250
+    }).on('fix',function(elem){
+      console.log('fix',elem);
+    }).on('unfix',function(elem){
+      console.log('unfix',elem)
+    })
+  });
+  </script>
+</body>
+</html>

@@ -12,9 +12,27 @@ $ npm install sticky --save
 
 ```js
 var sticky = require('sticky');
+sticky(element, offset);
+sticky.on('fix',function(elem){
+  ...
+});
+sticky.on('unfix',function(elem){
+  ...
+});
 ```
+
+### sticky(elem, offset)
+- elem: <String>|<DOMElement>
+- offset
+  - top <Number>
+  - bottom <Number>
+
+### Events
+- fix
+- unfix
 
 ## Licence
 
 MIT
 <!-- do not want to make nodeinit to complicated, you can edit this whenever you want. -->
+

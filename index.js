@@ -1,14 +1,20 @@
 "use strict";
 var $ = require('jquery');
+var events = require('events');
 var win = $(window);
 
-function sticky(elem, top, cb, bottom) {
+function sticky(elem, offset) {
   elem = $(elem);
   if (!elem.length) {
     return false;
   }
+
+  var emitter = new events.EventEmitter;
+  var top = offset.top || 0;
+  var bottom = offset.bottom;
+
   var placeholder = null;
-  var offsetParent = elem.get(0).offsetParent;
+  var offsetParent = $(elem.get(0).offsetParent);
   var elem_css_position = elem.css("position");
   var elem_css_top = elem.css("top");
   var elem_css_left = elem.css("left");
@@ -17,8 +23,8 @@ function sticky(elem, top, cb, bottom) {
   var elem_top = elem.offset().top;
   var elem_left = elem.offset().left;
   var elem_height = elem.height();
-  var win_height = win.height();
-  var parent_offset = $(offsetParent).offset();
+  var win_height = $('body').height();
+  var parent_offset = offsetParent.offset();
   var win_scroll_top = 0;
 
   if (elem_css_position === "static") {
@@ -60,8 +66,8 @@ function sticky(elem, top, cb, bottom) {
   function fix_buttom(elem) {
     elem.css({
       "position": "absolute",
-      "top": win_height - bottom - elem_height - parent_offset.top,
-      "left": elem_left - parent_offset.left
+      "top": win_height - bottom - elem_height - parent_offset.top + parseInt(offsetParent.css('margin-top')),
+      "left": elem_left - parent_offset.left + parseInt(offsetParent.css('margin-left'))
     });
   }
 
@@ -80,19 +86,13 @@ function sticky(elem, top, cb, bottom) {
       if (old_status !== "fix") {
         fix(elem, top);
 
-        cb && cb({
-          status: "fix",
-          elem: elem
-        });
+        emitter.emit('fix',elem);
         old_status = "fix";
       }
     } else {
       if (old_status !== "unfix") {
         unfix(elem);
-        cb && cb({
-          status: "unfix",
-          elem: elem
-        });
+        emitter.emit('unfix',elem);
         old_status = "unfix";
       }
     }
@@ -105,6 +105,7 @@ function sticky(elem, top, cb, bottom) {
 
   $(win).on("scroll", computeSticky);
   $(document).on('ready',computeSticky);
+  return emitter;
 }
 
 module.exports = sticky;
